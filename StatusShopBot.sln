@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StatusShopBot", "StatusShopBot\StatusShopBot.csproj", "{C9621B05-A5CA-4052-9CB5-A2708B1A6EC5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{07885BDE-3CAF-4310-9041-87D3E7491954}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C9621B05-A5CA-4052-9CB5-A2708B1A6EC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9621B05-A5CA-4052-9CB5-A2708B1A6EC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9621B05-A5CA-4052-9CB5-A2708B1A6EC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9621B05-A5CA-4052-9CB5-A2708B1A6EC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07885BDE-3CAF-4310-9041-87D3E7491954}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07885BDE-3CAF-4310-9041-87D3E7491954}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07885BDE-3CAF-4310-9041-87D3E7491954}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07885BDE-3CAF-4310-9041-87D3E7491954}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5D846874-E066-43FE-8C34-50B17D61AB2D}
+	EndGlobalSection
+EndGlobal
