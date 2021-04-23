@@ -70,13 +70,13 @@ namespace StatusShopBot
 
         public async Task getStatus(IMonitoringRepository monitoringRepository)
         {
-            List<Monitoring> monitorings = await monitoringRepository.getAllLogs(10);
+            List<Monitoring> monitorings = await monitoringRepository.getAllLogs(20);
             if (monitorings.Count != 0)
             {
                 List<StatusShopModel> newlist = new List<StatusShopModel>();
                 int nstock = 1;
                 bool isNullP = false;
-                bool isFail = false;
+                bool isFound = false;
                 foreach (Monitoring monitoring in monitorings)
                 {
                     if (monitoring.Stock == nstock)
@@ -126,38 +126,46 @@ namespace StatusShopBot
                                 {
                                     if (newl.Status)
                                     {
-                                        string notification = $"\U00002705 Постачання відновлено \nМагазин № {newl.ShopId} \nЧас втрати 234 \nЧас відновлення {newl.LogTime}";
-
-                                        await botClient.SendTextMessageAsync(
-                                            chatId: "309516361",
-                                            text: notification
-                                            );
-                                    }
-
-
-                                    if (!newl.Status)
-                                    {
-                                        foreach (StatusShopModel fail in failStatusShopModels)
+                                        foreach( StatusShopModel fail in failStatusShopModels)
                                         {
-                                            if( fail.ShopId == newl.ShopId)
+                                            if(newl.ShopId == fail.ShopId)
                                             {
-                                                isFail = true;
+                                                isFound = true;
 
-                                                string notification = $"\U0000274C Втрата електропостачання \U0000203C\nМагазин № {newl.ShopId} \nЧас фіксації {newl.LogTime}";
+                                                string notification = $"\U00002705 Постачання відновлено \nМагазин № {newl.ShopId} \nЧас втрати {fail.LogTime} \nЧас відновлення {newl.LogTime}";
 
                                                 await botClient.SendTextMessageAsync(
                                                     chatId: "309516361",
                                                     text: notification
                                                     );
+
+                                                failStatusShopModels.Remove(new StatusShopModel { ShopId = newl.ShopId });
                                             }
                                         }
 
-                                        if (!isFail)
+                                        if (!isFound)
                                         {
-                                            failStatusShopModels.Add(new StatusShopModel { ShopId = newl.ShopId , LogTime = newl.LogTime });
-                                        }
+                                            string notification = $"\U00002705 Постачання відновлено \nМагазин № {newl.ShopId} \nЧас відновлення {newl.LogTime}";
 
-                                        isFail = false;
+                                            await botClient.SendTextMessageAsync(
+                                                chatId: "309516361",
+                                                text: notification
+                                                );
+                                        }
+                                        isFound = false;
+                                    }
+
+                                    if (!newl.Status)
+                                    {
+                                                                                      
+                                        string notification = $"\U0000274C Втрата електропостачання \U0000203C\nМагазин № {newl.ShopId} \nЧас фіксації {newl.LogTime}";
+
+                                        await botClient.SendTextMessageAsync(
+                                            chatId: "309516361",
+                                            text: notification
+                                            );
+
+                                        failStatusShopModels.Add(new StatusShopModel { ShopId = newl.ShopId, LogTime = newl.LogTime });
                                     }
                                     Console.WriteLine("Произошли изменения в " + statusShop.ShopId);
                                 }
