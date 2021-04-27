@@ -20,8 +20,8 @@ namespace DataAccessLayer.Repositories.EFRepositories.NetMonitoring
 
         public async Task<List<Monitoring>> getAllLogs(int minute)
         {
-            List<Monitoring> monitorings = await _netMonitoringContext.Monitorings.Where(x => x.LogTime.Value.Hour == DateTime.Now.Hour &&
-            x.LogTime.Value.Date == DateTime.Now.Date && x.LogTime.Value.Minute >= DateTime.Now.Minute - minute && x.LogTime.Value.Minute <= DateTime.Now.Minute).OrderBy(x =>x.Stock).ToListAsync();
+            List<Monitoring> monitorings = await _netMonitoringContext.Monitorings.Where(x =>
+            x.LogTime.Value >= DateTime.Now.AddMinutes(-minute)).OrderBy(x =>x.Stock).ToListAsync();
 
             return monitorings;            
         }
