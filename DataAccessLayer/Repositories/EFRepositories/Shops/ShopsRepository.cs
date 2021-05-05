@@ -10,16 +10,12 @@ namespace DataAccessLayer.Repositories.EFRepositories.Shops
 {
     public class ShopsRepository : IShopsRepository
     {
-        private readonly ShopsContext _shopsContext;
-
-        public ShopsRepository(ShopsContext shopsContext)
-        {
-            _shopsContext = shopsContext;
-        }
-
         public async Task<List<Shop>> getAllShops()
         {
-            List<Shop> shops = await _shopsContext.Shops.Where(x => x.StatusId == 25).OrderBy(x =>x.ShopNumber).ToListAsync();
+            ShopsContext shopsContext = new ShopsContext();
+
+            List<Shop> shops = await shopsContext.Shops.Where(x => x.StatusId == 25).OrderBy(x =>x.ShopNumber).ToListAsync();
+
             return shops;
         }
     }

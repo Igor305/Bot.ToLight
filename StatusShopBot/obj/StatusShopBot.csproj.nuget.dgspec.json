@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\i.talavyria\\Desktop\\BotToLight\\StatusShopBot\\StatusShopBot.csproj": {}
+    "C:\\Users\\i.talavyria\\Desktop\\project\\BotToLight\\StatusShopBot\\StatusShopBot.csproj": {}
   },
   "projects": {
-    "C:\\Users\\i.talavyria\\Desktop\\BotToLight\\DataAccessLayer\\DataAccessLayer.csproj": {
+    "C:\\Users\\i.talavyria\\Desktop\\project\\BotToLight\\DataAccessLayer\\DataAccessLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\i.talavyria\\Desktop\\BotToLight\\DataAccessLayer\\DataAccessLayer.csproj",
+        "projectUniqueName": "C:\\Users\\i.talavyria\\Desktop\\project\\BotToLight\\DataAccessLayer\\DataAccessLayer.csproj",
         "projectName": "DataAccessLayer",
-        "projectPath": "C:\\Users\\i.talavyria\\Desktop\\BotToLight\\DataAccessLayer\\DataAccessLayer.csproj",
+        "projectPath": "C:\\Users\\i.talavyria\\Desktop\\project\\BotToLight\\DataAccessLayer\\DataAccessLayer.csproj",
         "packagesPath": "C:\\Users\\i.talavyria\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\i.talavyria\\Desktop\\BotToLight\\DataAccessLayer\\obj\\",
+        "outputPath": "C:\\Users\\i.talavyria\\Desktop\\project\\BotToLight\\DataAccessLayer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\i.talavyria\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -74,14 +74,14 @@
         }
       }
     },
-    "C:\\Users\\i.talavyria\\Desktop\\BotToLight\\StatusShopBot\\StatusShopBot.csproj": {
+    "C:\\Users\\i.talavyria\\Desktop\\project\\BotToLight\\StatusShopBot\\StatusShopBot.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\i.talavyria\\Desktop\\BotToLight\\StatusShopBot\\StatusShopBot.csproj",
+        "projectUniqueName": "C:\\Users\\i.talavyria\\Desktop\\project\\BotToLight\\StatusShopBot\\StatusShopBot.csproj",
         "projectName": "StatusShopBot",
-        "projectPath": "C:\\Users\\i.talavyria\\Desktop\\BotToLight\\StatusShopBot\\StatusShopBot.csproj",
+        "projectPath": "C:\\Users\\i.talavyria\\Desktop\\project\\BotToLight\\StatusShopBot\\StatusShopBot.csproj",
         "packagesPath": "C:\\Users\\i.talavyria\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\i.talavyria\\Desktop\\BotToLight\\StatusShopBot\\obj\\",
+        "outputPath": "C:\\Users\\i.talavyria\\Desktop\\project\\BotToLight\\StatusShopBot\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\i.talavyria\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -98,8 +98,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\i.talavyria\\Desktop\\BotToLight\\DataAccessLayer\\DataAccessLayer.csproj": {
-                "projectPath": "C:\\Users\\i.talavyria\\Desktop\\BotToLight\\DataAccessLayer\\DataAccessLayer.csproj"
+              "C:\\Users\\i.talavyria\\Desktop\\project\\BotToLight\\DataAccessLayer\\DataAccessLayer.csproj": {
+                "projectPath": "C:\\Users\\i.talavyria\\Desktop\\project\\BotToLight\\DataAccessLayer\\DataAccessLayer.csproj"
               }
             }
           }

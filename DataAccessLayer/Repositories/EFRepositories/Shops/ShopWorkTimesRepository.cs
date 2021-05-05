@@ -10,16 +10,11 @@ namespace DataAccessLayer.Repositories.EFRepositories.Shops
 {
     public class ShopWorkTimesRepository : IShopWorkTimesRepository
     {
-        private readonly ShopsContext _shopsContext;
-
-        public ShopWorkTimesRepository (ShopsContext shopsContext)
-        {
-            _shopsContext = shopsContext;
-        }
-
         public async Task<List<ShopWorkTime>> getTimeToDay()
         {
-            List<ShopWorkTime> shopWorkTimes = await _shopsContext.ShopWorkTimes.OrderBy(x => x.Id).ToListAsync();
+            ShopsContext shopsContext = new ShopsContext();
+
+            List<ShopWorkTime> shopWorkTimes = await shopsContext.ShopWorkTimes.OrderBy(x => x.Id).ToListAsync();
 
             return shopWorkTimes;
         }

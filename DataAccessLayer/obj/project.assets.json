@@ -6011,11 +6011,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\i.talavyria\\Desktop\\BotToLight\\DataAccessLayer\\DataAccessLayer.csproj",
+      "projectUniqueName": "C:\\Users\\i.talavyria\\Desktop\\project\\BotToLight\\DataAccessLayer\\DataAccessLayer.csproj",
       "projectName": "DataAccessLayer",
-      "projectPath": "C:\\Users\\i.talavyria\\Desktop\\BotToLight\\DataAccessLayer\\DataAccessLayer.csproj",
+      "projectPath": "C:\\Users\\i.talavyria\\Desktop\\project\\BotToLight\\DataAccessLayer\\DataAccessLayer.csproj",
       "packagesPath": "C:\\Users\\i.talavyria\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\i.talavyria\\Desktop\\BotToLight\\DataAccessLayer\\obj\\",
+      "outputPath": "C:\\Users\\i.talavyria\\Desktop\\project\\BotToLight\\DataAccessLayer\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\i.talavyria\\AppData\\Roaming\\NuGet\\NuGet.Config",

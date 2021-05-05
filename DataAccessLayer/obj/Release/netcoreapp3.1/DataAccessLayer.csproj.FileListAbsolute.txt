@@ -10,3 +10,15 @@ C:\Users\i.talavyria\Desktop\BotToLight\DataAccessLayer\obj\Release\netcoreapp3.
 C:\Users\i.talavyria\Desktop\BotToLight\DataAccessLayer\obj\Release\netcoreapp3.1\DataAccessLayer.dll
 C:\Users\i.talavyria\Desktop\BotToLight\DataAccessLayer\obj\Release\netcoreapp3.1\DataAccessLayer.pdb
 C:\Users\i.talavyria\Desktop\BotToLight\DataAccessLayer\obj\Release\netcoreapp3.1\DataAccessLayer.genruntimeconfig.cache
+C:\Users\i.talavyria\Desktop\project\BotToLight\DataAccessLayer\bin\Release\netcoreapp3.1\DataAccessLayer.deps.json
+C:\Users\i.talavyria\Desktop\project\BotToLight\DataAccessLayer\bin\Release\netcoreapp3.1\DataAccessLayer.runtimeconfig.json
+C:\Users\i.talavyria\Desktop\project\BotToLight\DataAccessLayer\bin\Release\netcoreapp3.1\DataAccessLayer.runtimeconfig.dev.json
+C:\Users\i.talavyria\Desktop\project\BotToLight\DataAccessLayer\bin\Release\netcoreapp3.1\DataAccessLayer.dll
+C:\Users\i.talavyria\Desktop\project\BotToLight\DataAccessLayer\bin\Release\netcoreapp3.1\DataAccessLayer.pdb
+C:\Users\i.talavyria\Desktop\project\BotToLight\DataAccessLayer\obj\Release\netcoreapp3.1\DataAccessLayer.csprojAssemblyReference.cache
+C:\Users\i.talavyria\Desktop\project\BotToLight\DataAccessLayer\obj\Release\netcoreapp3.1\DataAccessLayer.AssemblyInfoInputs.cache
+C:\Users\i.talavyria\Desktop\project\BotToLight\DataAccessLayer\obj\Release\netcoreapp3.1\DataAccessLayer.AssemblyInfo.cs
+C:\Users\i.talavyria\Desktop\project\BotToLight\DataAccessLayer\obj\Release\netcoreapp3.1\DataAccessLayer.csproj.CoreCompileInputs.cache
+C:\Users\i.talavyria\Desktop\project\BotToLight\DataAccessLayer\obj\Release\netcoreapp3.1\DataAccessLayer.dll
+C:\Users\i.talavyria\Desktop\project\BotToLight\DataAccessLayer\obj\Release\netcoreapp3.1\DataAccessLayer.pdb
+C:\Users\i.talavyria\Desktop\project\BotToLight\DataAccessLayer\obj\Release\netcoreapp3.1\DataAccessLayer.genruntimeconfig.cache

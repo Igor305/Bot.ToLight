@@ -64,196 +64,218 @@ namespace StatusShopBot
 
         public async Task getStatus(IMonitoringRepository monitoringRepository, IShopsRepository shopsRepository, IShopWorkTimesRepository shopWorkTimesRepository)
         {
-            List<Shop> shops = await shopsRepository.getAllShops();
-            List<ShopWorkTime> shopWorkTimes = await shopWorkTimesRepository.getTimeToDay();
-            List<Monitoring> monitorings = await monitoringRepository.getAllLogs(20);
-            if (monitorings.Count != 0)
+            try
             {
-                
-                List<StatusShopModel> newlist = new List<StatusShopModel>();
-                int nstock = 1;
+                List<Shop> shops = await shopsRepository.getAllShops();
+                List<ShopWorkTime> shopWorkTimes = await shopWorkTimesRepository.getTimeToDay();
+                List<Monitoring> monitorings = await monitoringRepository.getAllLogs(20);
 
-                bool isNullP = false;
-                bool isFound = false;
-
-                DateTime dateFrom = DateTime.Now;
-                DateTime dateTo = DateTime.Now;
-
-                // ------------------------------------------------------------------------ алгоритм статуса магазина --------------------------------------------------------
-                foreach (Monitoring monitoring in monitorings)
+                if (monitorings.Count != 0)
                 {
-                    if (monitoring.Stock == nstock)
+
+                    List<StatusShopModel> newlist = new List<StatusShopModel>();
+                    int nstock = 1;
+
+                    bool isNullP = false;
+                    bool isFound = false;
+
+                    DateTime dateFrom = DateTime.Now;
+                    DateTime dateTo = DateTime.Now;
+
+                    // ------------------------------------------------------------------------ алгоритм статуса магазина --------------------------------------------------------
+                    foreach (Monitoring monitoring in monitorings)
                     {
-                        string device = monitoring.Device;
-                        char typeDevice = device[0];
-
-                        if ((monitoring.IpAddress == "0.0.0.0") || (monitoring.IpAddress == null))
+                        if (monitoring.Stock == nstock)
                         {
-                            isNullP = true;
-                        }
+                            string device = monitoring.Device;
+                            char typeDevice = device[0];
 
-                        if ((typeDevice == 'P') && (monitoring.Status == 1))
-                        {
-                            isNullP = false;
-                            newlist.Add(new StatusShopModel { ShopId = monitoring.Stock, Status = 1, LogTime = monitoring.LogTime });
-                            nstock++;
-                            continue;
-                        }
-
-                    }
-
-                    if (monitoring.Stock == nstock + 1)
-                    {
-                        if (isNullP)
-                        {
-                            newlist.Add(new StatusShopModel { ShopId = nstock, Status = -1, LogTime = monitoring.LogTime });
-                            nstock++;
-                        }
-                        if (!isNullP)
-                        {
-                            newlist.Add(new StatusShopModel { ShopId = nstock, Status = 0, LogTime = monitoring.LogTime });
-                            nstock++;
-                        }
-                    }
-                }
-
-                // ------------------------------------------------------------------------ определение времени работы магазина ---------------------------------------------
-                if (statusShopModels.Count != 0)
-                {
-                    foreach (StatusShopModel statusShop in statusShopModels)
-                    {
-                        foreach (Shop shop in shops)
-                        {
-                            if (statusShop.ShopId == shop.ShopNumber)
+                            if ((monitoring.IpAddress == "0.0.0.0") || (monitoring.IpAddress == null))
                             {
-                                foreach (ShopWorkTime shopWorkTime in shopWorkTimes)
+                                isNullP = true;
+                            }
+
+                            if ((typeDevice == 'P') && (monitoring.Status == 1))
+                            {
+                                isNullP = false;
+                                newlist.Add(new StatusShopModel { ShopId = monitoring.Stock, Status = 1, LogTime = monitoring.LogTime });
+                                nstock++;
+                                continue;
+                            }
+
+                        }
+
+                        if (monitoring.Stock == nstock + 1)
+                        {
+                            if (isNullP)
+                            {
+                                newlist.Add(new StatusShopModel { ShopId = nstock, Status = -1, LogTime = monitoring.LogTime });
+                                nstock++;
+                            }
+                            if (!isNullP)
+                            {
+                                newlist.Add(new StatusShopModel { ShopId = nstock, Status = 0, LogTime = monitoring.LogTime });
+                                nstock++;
+                            }
+                        }
+                    }
+
+                    // ------------------------------------------------------------------------ определение времени работы магазина ---------------------------------------------
+                    if (statusShopModels.Count != 0)
+                    {
+                        foreach (StatusShopModel statusShop in statusShopModels)
+                        {
+                            foreach (Shop shop in shops)
+                            {
+                                if (statusShop.ShopId == shop.ShopNumber)
                                 {
-                                    if (shop.ShopWorkTimeId == shopWorkTime.Id)
+                                    foreach (ShopWorkTime shopWorkTime in shopWorkTimes)
                                     {
-                                        switch (DateTime.Today.DayOfWeek)
+                                        if (shop.ShopWorkTimeId == shopWorkTime.Id)
                                         {
-                                            case DayOfWeek.Monday: dateFrom = shopWorkTime.MondayFrom; dateTo = shopWorkTime.MondayTo; break;
-                                            case DayOfWeek.Tuesday: dateFrom = shopWorkTime.TuesdayFrom; dateTo = shopWorkTime.TuesdayTo; break;
-                                            case DayOfWeek.Wednesday: dateFrom = shopWorkTime.WednesdayFrom; dateTo = shopWorkTime.WednesdayTo; break;
-                                            case DayOfWeek.Thursday: dateFrom = shopWorkTime.ThursdayFrom; dateTo = shopWorkTime.ThursdayTo; break;
-                                            case DayOfWeek.Friday: dateFrom = shopWorkTime.FridayFrom; dateTo = shopWorkTime.FridayTo; break;
-                                            case DayOfWeek.Saturday: dateFrom = shopWorkTime.SaturdayFrom; dateTo = shopWorkTime.SaturdayTo; break;
-                                            case DayOfWeek.Sunday: dateFrom = shopWorkTime.SundayFrom; dateTo = shopWorkTime.SundayTo; break;
-
-                                            default: dateFrom = shopWorkTime.MondayFrom; dateTo = shopWorkTime.MondayTo; break;
-                                        }
-
-                                        //------------------------------------------------------------------------------ рабочее время ---------------------------------
-
-                                        if ((DateTime.Now.Hour >= dateFrom.Hour) && (DateTime.Now.Hour < dateTo.Hour))
-                                        {
-                                            foreach (StatusShopModel newl in newlist)
+                                            switch (DateTime.Today.DayOfWeek)
                                             {
-                                                if (statusShop.ShopId == newl.ShopId)
+                                                case DayOfWeek.Monday: dateFrom = shopWorkTime.MondayFrom; dateTo = shopWorkTime.MondayTo; break;
+                                                case DayOfWeek.Tuesday: dateFrom = shopWorkTime.TuesdayFrom; dateTo = shopWorkTime.TuesdayTo; break;
+                                                case DayOfWeek.Wednesday: dateFrom = shopWorkTime.WednesdayFrom; dateTo = shopWorkTime.WednesdayTo; break;
+                                                case DayOfWeek.Thursday: dateFrom = shopWorkTime.ThursdayFrom; dateTo = shopWorkTime.ThursdayTo; break;
+                                                case DayOfWeek.Friday: dateFrom = shopWorkTime.FridayFrom; dateTo = shopWorkTime.FridayTo; break;
+                                                case DayOfWeek.Saturday: dateFrom = shopWorkTime.SaturdayFrom; dateTo = shopWorkTime.SaturdayTo; break;
+                                                case DayOfWeek.Sunday: dateFrom = shopWorkTime.SundayFrom; dateTo = shopWorkTime.SundayTo; break;
+
+                                                default: dateFrom = shopWorkTime.MondayFrom; dateTo = shopWorkTime.MondayTo; break;
+                                            }
+
+                                            //------------------------------------------------------------------------------ рабочее время ---------------------------------
+
+                                            if ((DateTime.Now.Hour >= dateFrom.Hour) && (DateTime.Now.Hour < dateTo.Hour))
+                                            {
+                                                foreach (StatusShopModel newl in newlist)
                                                 {
-                                                    if (statusShop.Status != newl.Status)
+                                                    newl.isWork = true;
+
+                                                    if (statusShop.ShopId == newl.ShopId)
                                                     {
-                                                        if ((newl.Status == -1) || (statusShop.Status == -1))
+                                                        if (statusShop.Status != newl.Status)
                                                         {
-                                                            newl.Status = statusShop.Status;
-                                                            break;
-                                                        }
-
-                                                        if (newl.Status == 1)
-                                                        {
-                                                            StatusShopModel errorShopsModel = new StatusShopModel();
-
-                                                            foreach (StatusShopModel fail in failStatusShopModels)
+                                                            if ((newl.Status == -1))
                                                             {
-                                                                if (newl.ShopId == fail.ShopId)
-                                                                {
-                                                                    isFound = true;
+                                                                newl.Status = statusShop.Status;
+                                                                break;
+                                                            }
 
-                                                                    string notification = $"\U00002705 Постачання відновлено \nМагазин № {newl.ShopId} \nЧас втрати {fail.LogTime} \nЧас відновлення {newl.LogTime}";
+                                                            if (newl.Status == 1)
+                                                            {
+                                                                StatusShopModel errorShopsModel = new StatusShopModel();
+
+                                                                foreach (StatusShopModel fail in failStatusShopModels)
+                                                                {
+                                                                    if (newl.ShopId == fail.ShopId)
+                                                                    {
+                                                                        isFound = true;
+
+                                                                        string notification = $"\U00002705 Постачання відновлено \nМагазин № {newl.ShopId} \nЧас втрати {fail.LogTime} \nЧас відновлення {newl.LogTime}";
+
+                                                                        await botClient.SendTextMessageAsync(
+                                                                            chatId: "-1001395707277",
+                                                                            text: notification
+                                                                            );
+
+                                                                        await botClient.SendTextMessageAsync(
+                                                                            chatId: "309516361",
+                                                                            text: notification
+                                                                            );
+
+                                                                        errorShopsModel = fail;
+                                                                    }
+                                                                }
+
+                                                                if (isFound)
+                                                                {
+                                                                    failStatusShopModels.Remove(errorShopsModel);
+                                                                }
+
+                                                                if (!isFound)
+                                                                {
+                                                                    string notification = $"\U00002705 Постачання відновлено \nМагазин № {newl.ShopId} \nЧас відновлення {newl.LogTime}";
 
                                                                     await botClient.SendTextMessageAsync(
                                                                         chatId: "-1001395707277",
                                                                         text: notification
                                                                         );
 
-                                                                    errorShopsModel = fail;
+                                                                    await botClient.SendTextMessageAsync(
+                                                                        chatId: "309516361",
+                                                                        text: notification
+                                                                        );
+
                                                                 }
+                                                                isFound = false;
                                                             }
 
-                                                            if (isFound)
+                                                            if (newl.Status == 0)
                                                             {
-                                                                failStatusShopModels.Remove(errorShopsModel);
-                                                            }
-                                                       
-                                                            if (!isFound)
-                                                            {
-                                                                string notification = $"\U00002705 Постачання відновлено \nМагазин № {newl.ShopId} \nЧас відновлення {newl.LogTime}";
+
+                                                                string notification = $"\U0000274C Втрата електропостачання \U0000203CМагазин № {newl.ShopId} \nЧас фіксації {newl.LogTime}";
 
                                                                 await botClient.SendTextMessageAsync(
                                                                     chatId: "-1001395707277",
                                                                     text: notification
                                                                     );
+
+                                                                await botClient.SendTextMessageAsync(
+                                                                    chatId: "309516361",
+                                                                    text: notification
+                                                                    );
+
+                                                                failStatusShopModels.Add(new StatusShopModel { ShopId = newl.ShopId, LogTime = newl.LogTime });
                                                             }
-                                                            isFound = false;
                                                         }
-
-                                                        if (newl.Status == 0)
-                                                        {
-
-                                                            string notification = $"\U0000274C Втрата електропостачання \U0000203C\nМагазин № {newl.ShopId} \nЧас фіксації {newl.LogTime}";
-
-                                                            await botClient.SendTextMessageAsync(
-                                                                chatId: "-1001395707277",
-                                                                text: notification
-                                                                );
-
-                                                            failStatusShopModels.Add(new StatusShopModel { ShopId = newl.ShopId, LogTime = newl.LogTime });
-                                                        }
-                                                        Console.WriteLine("Произошли изменения в " + statusShop.ShopId);
+                                                        break;
                                                     }
-                                                    break;
                                                 }
                                             }
-                                        }
 
-                                        //--------------------------------------------------------------------- В НЕ рабочее время и для магазинов без графика работы -----------------------------------------------
+                                            //--------------------------------------------------------------------- В НЕ рабочее время и для магазинов без графика работы -----------------------------------------------
 
-                                        if ((DateTime.Now.Hour < dateFrom.Hour) || (DateTime.Now.Hour >= dateTo.Hour))
-                                        {
-                                            foreach (StatusShopModel newl in newlist)
+                                            if ((DateTime.Now.Hour < dateFrom.Hour) || (DateTime.Now.Hour >= dateTo.Hour))
                                             {
-                                                if (statusShop.ShopId == newl.ShopId)
+                                                foreach (StatusShopModel newl in newlist)
                                                 {
-                                                    if (statusShop.Status != newl.Status)
+                                                    if (statusShop.ShopId == newl.ShopId)
                                                     {
-                                                        if ((newl.Status == -1) || (statusShop.Status != -1))
+                                                        if (statusShop.Status != newl.Status)
                                                         {
-                                                            break;
-                                                        }
-
-                                                        if (newl.Status == 1)
-                                                        {
-                                                            StatusShopModel errorShopsModel = new StatusShopModel();
-
-                                                            foreach (StatusShopModel fail in failStatusShopModels)
+                                                            if ((newl.Status == -1))
                                                             {
-                                                                if (newl.ShopId == fail.ShopId)
+                                                                newl.Status = statusShop.Status;
+                                                                break;
+                                                            }
+
+                                                            if (newl.Status == 1)
+                                                            {
+                                                                StatusShopModel errorShopsModel = new StatusShopModel();
+
+                                                                foreach (StatusShopModel fail in failStatusShopModels)
                                                                 {
-                                                                    isFound = true;
-                                                                    errorShopsModel = fail;
+                                                                    if (newl.ShopId == fail.ShopId)
+                                                                    {
+                                                                        isFound = true;
+                                                                        errorShopsModel = fail;
+                                                                    }
+
                                                                 }
 
+                                                                if (isFound)
+                                                                {
+                                                                    failStatusShopModels.Remove(errorShopsModel);
+                                                                }
                                                             }
 
-                                                            if (isFound)
+                                                            if (newl.Status == 0)
                                                             {
-                                                                failStatusShopModels.Remove(errorShopsModel);
+                                                                failStatusShopModels.Add(new StatusShopModel { ShopId = newl.ShopId, LogTime = newl.LogTime });
                                                             }
-                                                        }
-
-                                                        if (newl.Status == 0)
-                                                        {
-                                                            failStatusShopModels.Add(new StatusShopModel { ShopId = newl.ShopId, LogTime = newl.LogTime });
                                                         }
                                                     }
                                                 }
@@ -264,21 +286,26 @@ namespace StatusShopBot
                             }
                         }
                     }
-                }
-                statusShopModels = newlist;
+                    statusShopModels = newlist;
 
-                foreach (StatusShopModel statusShopModel in statusShopModels)
+                    foreach (StatusShopModel statusShopModel in statusShopModels)
+                    {
+                        Console.WriteLine($"{statusShopModel.ShopId} {statusShopModel.Status} {statusShopModel.LogTime} {statusShopModel.isWork}");
+                    }
+                }
+
+                Console.WriteLine(monitorings.Count);
+                Console.WriteLine(DateTime.Now);
+
+                foreach (StatusShopModel statusShopModel in failStatusShopModels)
                 {
                     Console.WriteLine($"{statusShopModel.ShopId} {statusShopModel.Status} {statusShopModel.LogTime}");
                 }
             }
 
-            Console.WriteLine(monitorings.Count);
-            Console.WriteLine(DateTime.Now);
-
-            foreach (StatusShopModel statusShopModel in failStatusShopModels)
+            catch
             {
-                Console.WriteLine($"{statusShopModel.ShopId} {statusShopModel.Status} {statusShopModel.LogTime}");
+                return;
             }
         }
     }

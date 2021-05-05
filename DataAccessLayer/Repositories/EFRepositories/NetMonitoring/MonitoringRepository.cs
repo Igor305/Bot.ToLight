@@ -11,16 +11,11 @@ namespace DataAccessLayer.Repositories.EFRepositories.NetMonitoring
 {
     public class MonitoringRepository : IMonitoringRepository
     {
-        private readonly NetMonitoringContext _netMonitoringContext;
-
-        public MonitoringRepository(NetMonitoringContext netMonitoringContext)
-        {
-            _netMonitoringContext = netMonitoringContext;
-        }
-
         public async Task<List<Monitoring>> getAllLogs(int minute)
         {
-            List<Monitoring> monitorings = await _netMonitoringContext.Monitorings.Where(x =>
+            NetMonitoringContext netMonitoringContext = new NetMonitoringContext();
+
+            List<Monitoring> monitorings = await netMonitoringContext.Monitorings.Where(x =>
             x.LogTime.Value >= DateTime.Now.AddMinutes(-minute)).OrderBy(x =>x.Stock).ToListAsync();
 
             return monitorings;            
