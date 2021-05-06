@@ -49,7 +49,7 @@ namespace BusinessLogicLayer.Services
 
                 botClient.StartReceiving();
 
-                Timer timer = new Timer(60000);
+                Timer timer = new Timer(300000);
                 timer.Elapsed += async (sender, e) => await getStatus();
                 timer.Start();              
 
