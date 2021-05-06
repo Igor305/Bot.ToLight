@@ -70,4 +70,3 @@ C:\Users\i.talavyria\Desktop\project\BotToLight\PresentationLayer\obj\Release\ne
 C:\Users\i.talavyria\Desktop\project\BotToLight\PresentationLayer\obj\Release\netcoreapp3.1\PresentationLayer.dll
 C:\Users\i.talavyria\Desktop\project\BotToLight\PresentationLayer\obj\Release\netcoreapp3.1\PresentationLayer.pdb
 C:\Users\i.talavyria\Desktop\project\BotToLight\PresentationLayer\obj\Release\netcoreapp3.1\PresentationLayer.genruntimeconfig.cache
-C:\Users\i.talavyria\Desktop\project\BotToLight\PresentationLayer\bin\Release\netcoreapp3.1\AutoMapper.dll

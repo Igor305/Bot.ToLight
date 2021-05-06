@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using BusinessLogicLayer.Models;
+﻿using BusinessLogicLayer.Models;
+using BusinessLogicLayer.Models.Response;
 using BusinessLogicLayer.Services.Interfaces;
 using DataAccessLayer.Entities.NetMonitoring;
 using DataAccessLayer.Entities.Shops;
@@ -20,16 +20,14 @@ namespace BusinessLogicLayer.Services
         private readonly IShopsRepository _shopsRepository;
         private readonly IShopWorkTimesRepository _shopWorkTimesRepository;
 
-        private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
 
-        public BotService(IMonitoringRepository monitoringRepository, IShopsRepository shopsRepository, IShopWorkTimesRepository shopWorkTimesRepository, IMapper mapper, IConfiguration configuration)
+        public BotService(IMonitoringRepository monitoringRepository, IShopsRepository shopsRepository, IShopWorkTimesRepository shopWorkTimesRepository, IConfiguration configuration)
         {
             _monitoringRepository = monitoringRepository;
             _shopsRepository = shopsRepository;
             _shopWorkTimesRepository = shopWorkTimesRepository;
 
-            _mapper = mapper;
             _configuration = configuration;
         }
         
@@ -40,7 +38,7 @@ namespace BusinessLogicLayer.Services
 
         private static bool isStart = false;
 
-        public async Task<List<StatusShopModel>> startBot()
+        public async Task<StatusShopResponseModel> startBot()
         {
             if (!isStart)
             {
@@ -51,14 +49,20 @@ namespace BusinessLogicLayer.Services
 
                 botClient.StartReceiving();
 
-                Timer timer = new Timer(300000);
+                Timer timer = new Timer(60000);
                 timer.Elapsed += async (sender, e) => await getStatus();
                 timer.Start();              
 
                 await getStatus();
 
             }
-            return failStatusShopModels;
+
+            StatusShopResponseModel statusShopResponseModel = new StatusShopResponseModel();
+
+            statusShopResponseModel.statusShopModels = statusShopModels;
+            statusShopResponseModel.failStatusShopModels = failStatusShopModels;
+
+            return statusShopResponseModel;
         }
         private async Task getStatus()
         {
@@ -74,11 +78,6 @@ namespace BusinessLogicLayer.Services
                 List<Monitoring> monitorings = await _monitoringRepository.getAllLogs(21);
                 List<Shop> shops = await _shopsRepository.getAllShops();
                 List<ShopWorkTime> shopWorkTimes = await _shopWorkTimesRepository.getTimeToDay();
-
-              /*  List<MonitoringModel> monitoringModels = _mapper.Map<List<Monitoring>, List<MonitoringModel>>(monitorings);
-                List<ShopModel> shopModels = _mapper.Map<List<Shop>, List<ShopModel>>(shops);
-                List<ShopWorkTimeModel> shopWorkTimesModels = _mapper.Map<List<ShopWorkTime>, List<ShopWorkTimeModel>>(shopWorkTimes);*/
-
 
                 if (monitorings.Count != 0)
                 {
@@ -108,7 +107,7 @@ namespace BusinessLogicLayer.Services
                             if ((typeDevice == 'P') && (monitoring.Status == 1))
                             {
                                 isNullP = false;
-                                newlist.Add(new StatusShopModel { ShopId = monitoring.Stock, Status = 1, LogTime = monitoring.LogTime });
+                                newlist.Add(new StatusShopModel { ShopId = monitoring.Stock, Status = 1, LogTime = monitoring.LogTime, isWork = true });
                                 nstock++;
                                 continue;
                             }
@@ -119,12 +118,12 @@ namespace BusinessLogicLayer.Services
                         {
                             if (isNullP)
                             {
-                                newlist.Add(new StatusShopModel { ShopId = nstock, Status = -1, LogTime = monitoring.LogTime });
+                                newlist.Add(new StatusShopModel { ShopId = nstock, Status = -1, LogTime = monitoring.LogTime, isWork = true });
                                 nstock++;
                             }
                             if (!isNullP)
                             {
-                                newlist.Add(new StatusShopModel { ShopId = nstock, Status = 0, LogTime = monitoring.LogTime });
+                                newlist.Add(new StatusShopModel { ShopId = nstock, Status = 0, LogTime = monitoring.LogTime, isWork = true });
                                 nstock++;
                             }
                         }
@@ -158,11 +157,36 @@ namespace BusinessLogicLayer.Services
 
                                             //------------------------------------------------------------------------------ рабочее время ---------------------------------
 
-                                            if ((DateTime.Now.Hour >= dateFrom.Hour) && (DateTime.Now.Hour < dateTo.Hour))
+                                            if (DateTime.Now.Hour >= dateFrom.Hour && DateTime.Now.Hour < dateTo.Hour)
                                             {
                                                 foreach (StatusShopModel newl in newlist)
                                                 {
                                                     newl.isWork = true;
+
+                                                    if (statusShop.isWork == false && newl.isWork == true && statusShop.ShopId == newl.ShopId)
+                                                    {
+                                                        string notification = $"\U0000274C Електропостачання відсутнє \U0000203CМагазин № {newl.ShopId}";
+
+                                                        foreach (StatusShopModel fail in failStatusShopModels)
+                                                        {
+                                                            if (statusShop.ShopId == fail.ShopId)
+                                                            {
+                                                                notification += $"\nЧас фіксації {fail.LogTime}";
+                                                            }
+                                                        }
+
+                                                        await botClient.SendTextMessageAsync(
+                                                            chatId: _configuration["Bot:TestChatId"],
+                                                            text: notification
+                                                            );
+
+                                                        await botClient.SendTextMessageAsync(
+                                                            chatId: _configuration["Bot:ChatId"],
+                                                            text: notification
+                                                            );
+
+                                                        statusShop.isWork = true;
+                                                    }
 
                                                     if (statusShop.ShopId == newl.ShopId)
                                                     {
@@ -191,10 +215,10 @@ namespace BusinessLogicLayer.Services
                                                                             text: notification
                                                                             );
 
-                                                                        /*await botClient.SendTextMessageAsync(
+                                                                        await botClient.SendTextMessageAsync(
                                                                             chatId: _configuration["Bot:ChatId"],
                                                                             text: notification
-                                                                            );*/
+                                                                            );
 
                                                                         errorShopsModel = fail;
                                                                     }
@@ -214,10 +238,10 @@ namespace BusinessLogicLayer.Services
                                                                         text: notification
                                                                         );
 
-                                                                    /*await botClient.SendTextMessageAsync(
+                                                                    await botClient.SendTextMessageAsync(
                                                                         chatId: _configuration["Bot:ChatId"],
                                                                         text: notification
-                                                                        );*/
+                                                                        );
 
                                                                 }
                                                                 isFound = false;
@@ -233,10 +257,10 @@ namespace BusinessLogicLayer.Services
                                                                     text: notification
                                                                     );
 
-                                                                /*await botClient.SendTextMessageAsync(
+                                                                await botClient.SendTextMessageAsync(
                                                                     chatId: _configuration["Bot:ChatId"],
                                                                     text: notification
-                                                                    );*/
+                                                                    );
 
                                                                 failStatusShopModels.Add(new StatusShopModel { ShopId = newl.ShopId, LogTime = newl.LogTime });
                                                             }
@@ -252,6 +276,8 @@ namespace BusinessLogicLayer.Services
                                             {
                                                 foreach (StatusShopModel newl in newlist)
                                                 {
+                                                    newl.isWork = false;
+
                                                     if (statusShop.ShopId == newl.ShopId)
                                                     {
                                                         if (statusShop.Status != newl.Status)

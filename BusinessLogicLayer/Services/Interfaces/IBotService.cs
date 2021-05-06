@@ -1,11 +1,10 @@
-﻿using BusinessLogicLayer.Models;
-using System.Collections.Generic;
+﻿using BusinessLogicLayer.Models.Response;
 using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Services.Interfaces
 {
     public interface IBotService
     {
-        public Task<List<StatusShopModel>> startBot();
+        public Task<StatusShopResponseModel> startBot();
     }
 }

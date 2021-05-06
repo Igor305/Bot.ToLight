@@ -5,6 +5,6 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>C:\Users\i.talavyria\Desktop\project\BotToLight\PresentationLayer\bin\Release\netcoreapp3.1\publish\</_PublishTargetUrl>
-    <History>True|2021-05-05T11:12:57.8988039Z;True|2021-05-05T13:00:42.0281511+03:00;True|2021-05-05T12:59:41.6038779+03:00;True|2021-05-05T08:11:12.9669429+03:00;True|2021-05-04T16:31:56.0853311+03:00;True|2021-05-04T14:23:34.4327343+03:00;True|2021-05-04T14:02:37.6341448+03:00;</History>
+    <History>True|2021-05-06T11:19:56.6714708Z;True|2021-05-06T14:19:44.7678042+03:00;True|2021-05-06T14:17:42.0951806+03:00;True|2021-05-06T14:16:39.8357149+03:00;True|2021-05-06T08:00:21.9565722+03:00;True|2021-05-05T16:20:51.9773819+03:00;True|2021-05-05T14:12:57.8988039+03:00;True|2021-05-05T13:00:42.0281511+03:00;True|2021-05-05T12:59:41.6038779+03:00;True|2021-05-05T08:11:12.9669429+03:00;True|2021-05-04T16:31:56.0853311+03:00;True|2021-05-04T14:23:34.4327343+03:00;True|2021-05-04T14:02:37.6341448+03:00;</History>
   </PropertyGroup>
 </Project>

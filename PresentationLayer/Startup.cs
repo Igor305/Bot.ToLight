@@ -1,5 +1,3 @@
-using AutoMapper;
-using BusinessLogicLayer.AutoHelper;
 using BusinessLogicLayer.Services;
 using BusinessLogicLayer.Services.Interfaces;
 using DataAccessLayer.AppContext;
@@ -36,13 +34,6 @@ namespace PresentationLayer
             services.AddScoped<IShopsRepository, ShopsRepository>();
             services.AddScoped<IShopWorkTimesRepository, ShopWorkTimesRepository>();
             services.AddScoped<IBotService, BotService>();
-
-            MapperConfiguration mapperconfig = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<MapperProfile>();
-            });
-            IMapper mapper = mapperconfig.CreateMapper();
-            services.AddSingleton(mapper);
 
             services.AddControllers();
         }
