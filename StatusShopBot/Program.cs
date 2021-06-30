@@ -21,6 +21,12 @@ namespace StatusShopBot
         private readonly static string connectionStringSQL08 = "Data Source=sql08;Initial Catalog=NetMonitoring;Persist Security Info=True;User ID=j-sql08-read-NetMonitoring;Password=9g0sl3l9z1l0;Connection Timeout=150";
         private readonly static string connectionStringSQL26 = "Data Source=sql26;Initial Catalog=Shops;Persist Security Info=True;User ID=j-sql26-reader-shops;Password=1GAxzpWtGojxCWnW8sYY";
 
+        private readonly static string creatorId = "309516361";
+        private readonly static string testChatId = "-1001395707277";
+        private readonly static string chatId = "-1001158034358";
+        private readonly static string pathLog = "Log.txt";
+        private readonly static string pathLogFail = "LogFail.txt";
+
         private static TelegramBotClient botClient;
 
         private static List<StatusShopModel> statusShopModels = new List<StatusShopModel>();
@@ -44,8 +50,6 @@ namespace StatusShopBot
             IShopWorkTimesRepository shopWorkTimesRepository = services.GetService<IShopWorkTimesRepository>();
 
             botClient = new TelegramBotClient(token);
-            var info = botClient.GetMeAsync().Result;
-            Console.WriteLine($"Мой Id {info.Id}, {info.FirstName}");
 
             Program program = new Program();
 
@@ -53,19 +57,27 @@ namespace StatusShopBot
             timer.Elapsed += async (sender, e) => await program.getStatus(monitoringRepository, shopsRepository, shopWorkTimesRepository);
             timer.Start();
 
-            await program.getStatus(monitoringRepository, shopsRepository, shopWorkTimesRepository);
-
             botClient.StartReceiving();
 
-            Console.ReadKey();
+            await program.getStatus(monitoringRepository, shopsRepository, shopWorkTimesRepository);
 
-            botClient.StopReceiving();
+            System.Threading.Thread.Sleep(-1);
         }
 
         public async Task getStatus(IMonitoringRepository monitoringRepository, IShopsRepository shopsRepository, IShopWorkTimesRepository shopWorkTimesRepository)
         {
             try
             {
+                string not = "BotToLight inWork";
+
+                await botClient.SendTextMessageAsync(
+                    chatId: creatorId,
+                    text: not
+                    );
+
+                string result = "";
+                string resultFail = "";
+
                 List<Shop> shops = await shopsRepository.getAllShops();
                 List<ShopWorkTime> shopWorkTimes = await shopWorkTimesRepository.getTimeToDay();
                 List<Monitoring> monitorings = await monitoringRepository.getAllLogs(20);
@@ -177,12 +189,12 @@ namespace StatusShopBot
                                                                         string notification = $"\U00002705 Постачання відновлено \nМагазин № {newl.ShopId} \nЧас втрати {fail.LogTime} \nЧас відновлення {newl.LogTime}";
 
                                                                         await botClient.SendTextMessageAsync(
-                                                                            chatId: "-1001395707277",
+                                                                            chatId: testChatId,
                                                                             text: notification
                                                                             );
 
                                                                         await botClient.SendTextMessageAsync(
-                                                                            chatId: "309516361",
+                                                                            chatId: chatId,
                                                                             text: notification
                                                                             );
 
@@ -200,12 +212,12 @@ namespace StatusShopBot
                                                                     string notification = $"\U00002705 Постачання відновлено \nМагазин № {newl.ShopId} \nЧас відновлення {newl.LogTime}";
 
                                                                     await botClient.SendTextMessageAsync(
-                                                                        chatId: "-1001395707277",
+                                                                        chatId: testChatId,
                                                                         text: notification
                                                                         );
 
                                                                     await botClient.SendTextMessageAsync(
-                                                                        chatId: "309516361",
+                                                                        chatId: chatId,
                                                                         text: notification
                                                                         );
 
@@ -219,12 +231,12 @@ namespace StatusShopBot
                                                                 string notification = $"\U0000274C Втрата електропостачання \U0000203CМагазин № {newl.ShopId} \nЧас фіксації {newl.LogTime}";
 
                                                                 await botClient.SendTextMessageAsync(
-                                                                    chatId: "-1001395707277",
+                                                                    chatId: testChatId,
                                                                     text: notification
                                                                     );
 
                                                                 await botClient.SendTextMessageAsync(
-                                                                    chatId: "309516361",
+                                                                    chatId: chatId,
                                                                     text: notification
                                                                     );
 
@@ -242,6 +254,8 @@ namespace StatusShopBot
                                             {
                                                 foreach (StatusShopModel newl in newlist)
                                                 {
+                                                    newl.isWork = false;
+
                                                     if (statusShop.ShopId == newl.ShopId)
                                                     {
                                                         if (statusShop.Status != newl.Status)
@@ -288,19 +302,31 @@ namespace StatusShopBot
                     }
                     statusShopModels = newlist;
 
+                    if (System.IO.File.Exists(pathLog))
+                    {
+                        System.IO.File.Delete(pathLog);
+                    }
+
+                    if (System.IO.File.Exists(pathLogFail))
+                    {
+                        System.IO.File.Delete(pathLogFail);
+                    }
+
                     foreach (StatusShopModel statusShopModel in statusShopModels)
                     {
-                        Console.WriteLine($"{statusShopModel.ShopId} {statusShopModel.Status} {statusShopModel.LogTime} {statusShopModel.isWork}");
+                        result += $"{statusShopModel.ShopId} {statusShopModel.Status} {statusShopModel.LogTime} {statusShopModel.isWork}\n";
                     }
                 }
 
-                Console.WriteLine(monitorings.Count);
-                Console.WriteLine(DateTime.Now);
+                result += $"{DateTime.Now}\n";
 
                 foreach (StatusShopModel statusShopModel in failStatusShopModels)
                 {
-                    Console.WriteLine($"{statusShopModel.ShopId} {statusShopModel.Status} {statusShopModel.LogTime}");
+                    resultFail += $"ShopId:{statusShopModel.ShopId}\nStatus:{statusShopModel.Status}\nLogTime{statusShopModel.LogTime}\n";
                 }
+
+                await System.IO.File.AppendAllTextAsync(pathLog, result);
+                await System.IO.File.AppendAllTextAsync(pathLogFail, resultFail);
             }
 
             catch

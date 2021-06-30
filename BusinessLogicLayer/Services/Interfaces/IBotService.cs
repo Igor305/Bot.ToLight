@@ -5,6 +5,7 @@ namespace BusinessLogicLayer.Services.Interfaces
 {
     public interface IBotService
     {
-        public Task<StatusShopResponseModel> startBot();
+        public StatusShopResponseModel getStatusBot();
+        public Task getStatus();
     }
 }

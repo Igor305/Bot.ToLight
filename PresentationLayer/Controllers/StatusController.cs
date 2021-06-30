@@ -1,25 +1,24 @@
 ﻿using BusinessLogicLayer.Models.Response;
 using BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace PresentationLayer.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class BotController : ControllerBase
+    public class StatusController : ControllerBase
     {
         private readonly IBotService _botService;
 
-        public BotController(IBotService botService)
+        public StatusController(IBotService botService)
         {
             _botService = botService;
         }
 
         [HttpGet]
-        public async Task<StatusShopResponseModel> Bot()
+        public StatusShopResponseModel Bot()
         {
-            StatusShopResponseModel statusShopResponseModel = await _botService.startBot();
+            StatusShopResponseModel statusShopResponseModel = _botService.getStatusBot();
 
             return statusShopResponseModel;
         }

@@ -5,11 +5,11 @@ using DataAccessLayer.Entities.NetMonitoring;
 using DataAccessLayer.Entities.Shops;
 using DataAccessLayer.Repositories.Interfaces.NetMonitoring;
 using DataAccessLayer.Repositories.Interfaces.Shops;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Timers;
 using Telegram.Bot;
 
 namespace BusinessLogicLayer.Services
@@ -20,55 +20,45 @@ namespace BusinessLogicLayer.Services
         private readonly IShopsRepository _shopsRepository;
         private readonly IShopWorkTimesRepository _shopWorkTimesRepository;
 
+        private readonly IMemoryCache _memoryCache;
         private readonly IConfiguration _configuration;
 
-        public BotService(IMonitoringRepository monitoringRepository, IShopsRepository shopsRepository, IShopWorkTimesRepository shopWorkTimesRepository, IConfiguration configuration)
+        public BotService(IMonitoringRepository monitoringRepository, IShopsRepository shopsRepository, IShopWorkTimesRepository shopWorkTimesRepository, IMemoryCache memoryCache, IConfiguration configuration)
         {
             _monitoringRepository = monitoringRepository;
             _shopsRepository = shopsRepository;
             _shopWorkTimesRepository = shopWorkTimesRepository;
 
+            _memoryCache = memoryCache;
             _configuration = configuration;
         }
-        
+
         private static TelegramBotClient botClient;
 
         private static List<StatusShopModel> statusShopModels = new List<StatusShopModel>();
         private static List<StatusShopModel> failStatusShopModels = new List<StatusShopModel>();
+        private static List<ErrorModel> errorModels = new List<ErrorModel>();
 
-        private static bool isStart = false;
-
-        public async Task<StatusShopResponseModel> startBot()
+        public StatusShopResponseModel getStatusBot()
         {
-            if (!isStart)
-            {
-                isStart = true;
-
-                botClient = new TelegramBotClient(_configuration["Bot:Token"]);
-                var info = botClient.GetMeAsync().Result;
-
-                botClient.StartReceiving();
-
-                Timer timer = new Timer(300000);
-                timer.Elapsed += async (sender, e) => await getStatus();
-                timer.Start();              
-
-                await getStatus();
-
-            }
 
             StatusShopResponseModel statusShopResponseModel = new StatusShopResponseModel();
 
-            statusShopResponseModel.statusShopModels = statusShopModels;
-            statusShopResponseModel.failStatusShopModels = failStatusShopModels;
+            statusShopResponseModel = _memoryCache.Get<StatusShopResponseModel>("responseModel");
 
             return statusShopResponseModel;
+
         }
-        private async Task getStatus()
+        public async Task getStatus()
         {
             try
             {
-                string not = $"BotToLight inWork";
+
+                botClient = new TelegramBotClient(_configuration["Bot:Token"]);
+
+                botClient.StartReceiving();
+
+                string not = "BotToLight inWork";
 
                 await botClient.SendTextMessageAsync(
                     chatId: _configuration["Bot:CreatorId"],
@@ -162,31 +152,6 @@ namespace BusinessLogicLayer.Services
                                                 foreach (StatusShopModel newl in newlist)
                                                 {
                                                     newl.isWork = true;
-
-                                                    if (statusShop.isWork == false && newl.isWork == true && statusShop.ShopId == newl.ShopId)
-                                                    {
-                                                        string notification = $"\U0000274C Електропостачання відсутнє \U0000203CМагазин № {newl.ShopId}";
-
-                                                        foreach (StatusShopModel fail in failStatusShopModels)
-                                                        {
-                                                            if (statusShop.ShopId == fail.ShopId)
-                                                            {
-                                                                notification += $"\nЧас фіксації {fail.LogTime}";
-                                                            }
-                                                        }
-
-                                                        await botClient.SendTextMessageAsync(
-                                                            chatId: _configuration["Bot:TestChatId"],
-                                                            text: notification
-                                                            );
-
-                                                        await botClient.SendTextMessageAsync(
-                                                            chatId: _configuration["Bot:ChatId"],
-                                                            text: notification
-                                                            );
-
-                                                        statusShop.isWork = true;
-                                                    }
 
                                                     if (statusShop.ShopId == newl.ShopId)
                                                     {
@@ -324,10 +289,22 @@ namespace BusinessLogicLayer.Services
                     }
                     statusShopModels = newlist;
                 }
+
+                StatusShopResponseModel statusShopResponseModel = new StatusShopResponseModel();
+
+                statusShopResponseModel.statusShops = statusShopModels;
+                statusShopResponseModel.failStatusShops = failStatusShopModels;
+                statusShopResponseModel.errors = errorModels;
+
+                _memoryCache.Set("responseModel", statusShopResponseModel, new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(15)
+                });
             }
 
-            catch
+            catch (Exception e)
             {
+                errorModels.Add(new ErrorModel { Message = e.Message, Time = DateTime.Now });
                 return;
             }
         }   

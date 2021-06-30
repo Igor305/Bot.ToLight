@@ -5,6 +5,7 @@ C:\Users\i.talavyria\Desktop\project\BotToLight\PresentationLayer\obj\Release\ne
 C:\Users\i.talavyria\Desktop\project\BotToLight\PresentationLayer\obj\Release\netcoreapp3.1\PubTmp\Out\PresentationLayer.deps.json
 C:\Users\i.talavyria\Desktop\project\BotToLight\PresentationLayer\obj\Release\netcoreapp3.1\PubTmp\Out\PresentationLayer.runtimeconfig.json
 C:\Users\i.talavyria\Desktop\project\BotToLight\PresentationLayer\obj\Release\netcoreapp3.1\PubTmp\Out\PresentationLayer.pdb
+C:\Users\i.talavyria\Desktop\project\BotToLight\PresentationLayer\obj\Release\netcoreapp3.1\PubTmp\Out\MihaZupan.HttpToSocks5Proxy.dll
 C:\Users\i.talavyria\Desktop\project\BotToLight\PresentationLayer\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.Data.SqlClient.dll
 C:\Users\i.talavyria\Desktop\project\BotToLight\PresentationLayer\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.EntityFrameworkCore.dll
 C:\Users\i.talavyria\Desktop\project\BotToLight\PresentationLayer\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.EntityFrameworkCore.Abstractions.dll
@@ -15,6 +16,8 @@ C:\Users\i.talavyria\Desktop\project\BotToLight\PresentationLayer\obj\Release\ne
 C:\Users\i.talavyria\Desktop\project\BotToLight\PresentationLayer\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.Extensions.Configuration.Abstractions.dll
 C:\Users\i.talavyria\Desktop\project\BotToLight\PresentationLayer\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.Extensions.DependencyInjection.dll
 C:\Users\i.talavyria\Desktop\project\BotToLight\PresentationLayer\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\i.talavyria\Desktop\project\BotToLight\PresentationLayer\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Users\i.talavyria\Desktop\project\BotToLight\PresentationLayer\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.Extensions.Hosting.Abstractions.dll
 C:\Users\i.talavyria\Desktop\project\BotToLight\PresentationLayer\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.Extensions.Logging.dll
 C:\Users\i.talavyria\Desktop\project\BotToLight\PresentationLayer\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.Extensions.Logging.Abstractions.dll
 C:\Users\i.talavyria\Desktop\project\BotToLight\PresentationLayer\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.Extensions.Options.dll

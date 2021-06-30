@@ -30,11 +30,14 @@ namespace PresentationLayer
             services.AddLogging();
             services.AddDbContext<NetMonitoringContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:SQL08"]));
             services.AddDbContext<ShopsContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:SQL26"]));
+            services.AddMemoryCache();
             services.AddScoped<IMonitoringRepository, MonitoringRepository>();
             services.AddScoped<IShopsRepository, ShopsRepository>();
             services.AddScoped<IShopWorkTimesRepository, ShopWorkTimesRepository>();
             services.AddScoped<IBotService, BotService>();
-
+            services.AddHostedService<TimedHostedService>();
+            services.AddHostedService<ConsumeScopedServiceHostedService>();
+            services.AddScoped<IScopedProcessingService, ScopedProcessingService>();
             services.AddControllers();
         }
 
