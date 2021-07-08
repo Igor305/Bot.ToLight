@@ -18,7 +18,7 @@ namespace WorkerService
             while (!stoppingToken.IsCancellationRequested)
             {
                 StatusShopBot.Program program = new StatusShopBot.Program();
-                program.Start();
+                await program.start();
 
                 await Task.Delay(300000, stoppingToken);
             }

@@ -34,10 +34,10 @@ namespace StatusShopBot
         public static async Task Main(string[] args)
         {
             Program program = new Program();
-            program.Start();
+            await program.start();
         }
 
-        public async Task Start()
+        public async Task start()
         {
             IServiceCollection serviceCollection = new ServiceCollection()
             .AddLogging()
