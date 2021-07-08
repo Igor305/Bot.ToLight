@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "35y58PqXltfZwQ2/NHTHENQI4cGKCxZiA+pcmnhxZhP9vPkfozLSyf/g/M7Thtt4QpzHVEufo2AqEDFs5OYNRg==",
+  "dgSpecHash": "LNNrhQFSuIj/oVgyMNPVRPz9iYfWrFmlXBDkkQCWRBeRLTzrOx+0wXnfnw7GRrwN/eNXpyM7zzjI+NaCk/MCgg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\i.talavyria\\Desktop\\project\\BotToLight\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
+  "projectFilePath": "C:\\Users\\i.talavyria\\Desktop\\project\\Bot.ToLight\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\i.talavyria\\.nuget\\packages\\httptosocks5proxy\\1.4.0\\httptosocks5proxy.1.4.0.nupkg.sha512",
     "C:\\Users\\i.talavyria\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",

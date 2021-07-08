@@ -7625,11 +7625,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\i.talavyria\\Desktop\\project\\BotToLight\\PresentationLayer\\PresentationLayer.csproj",
+      "projectUniqueName": "C:\\Users\\i.talavyria\\Desktop\\project\\Bot.ToLight\\PresentationLayer\\PresentationLayer.csproj",
       "projectName": "PresentationLayer",
-      "projectPath": "C:\\Users\\i.talavyria\\Desktop\\project\\BotToLight\\PresentationLayer\\PresentationLayer.csproj",
+      "projectPath": "C:\\Users\\i.talavyria\\Desktop\\project\\Bot.ToLight\\PresentationLayer\\PresentationLayer.csproj",
       "packagesPath": "C:\\Users\\i.talavyria\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\i.talavyria\\Desktop\\project\\BotToLight\\PresentationLayer\\obj\\",
+      "outputPath": "C:\\Users\\i.talavyria\\Desktop\\project\\Bot.ToLight\\PresentationLayer\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\i.talavyria\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -7646,8 +7646,8 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\Users\\i.talavyria\\Desktop\\project\\BotToLight\\BusinessLogicLayer\\BusinessLogicLayer.csproj": {
-              "projectPath": "C:\\Users\\i.talavyria\\Desktop\\project\\BotToLight\\BusinessLogicLayer\\BusinessLogicLayer.csproj"
+            "C:\\Users\\i.talavyria\\Desktop\\project\\Bot.ToLight\\BusinessLogicLayer\\BusinessLogicLayer.csproj": {
+              "projectPath": "C:\\Users\\i.talavyria\\Desktop\\project\\Bot.ToLight\\BusinessLogicLayer\\BusinessLogicLayer.csproj"
             }
           }
         }

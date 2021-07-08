@@ -10,12 +10,11 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Timers;
 using Telegram.Bot;
 
 namespace StatusShopBot
 {
-    class Program
+    public class Program
     {
         private readonly static string token = "1643703787:AAH4S8zGMVeMzl59FczNvv6afiewTYCfRtA";
         private readonly static string connectionStringSQL08 = "Data Source=sql08;Initial Catalog=NetMonitoring;Persist Security Info=True;User ID=j-sql08-read-NetMonitoring;Password=9g0sl3l9z1l0;Connection Timeout=150";
@@ -32,16 +31,21 @@ namespace StatusShopBot
         private static List<StatusShopModel> statusShopModels = new List<StatusShopModel>();
         private static List<StatusShopModel> failStatusShopModels = new List<StatusShopModel>();
 
-        static async Task Main(string[] args)
+        public static async Task Main(string[] args)
         {
-           
+            Program program = new Program();
+            program.Start();
+        }
+
+        public async Task Start()
+        {
             IServiceCollection serviceCollection = new ServiceCollection()
-                .AddLogging()
-                .AddDbContext<NetMonitoringContext>(opts => opts.UseSqlServer(connectionStringSQL08))
-                .AddDbContext<ShopsContext>(opts => opts.UseSqlServer(connectionStringSQL26))
-                .AddScoped<IMonitoringRepository, MonitoringRepository>()
-                .AddScoped<IShopsRepository, ShopsRepository>()
-                .AddScoped<IShopWorkTimesRepository, ShopWorkTimesRepository>();
+            .AddLogging()
+            .AddDbContext<NetMonitoringContext>(opts => opts.UseSqlServer(connectionStringSQL08))
+            .AddDbContext<ShopsContext>(opts => opts.UseSqlServer(connectionStringSQL26))
+            .AddScoped<IMonitoringRepository, MonitoringRepository>()
+            .AddScoped<IShopsRepository, ShopsRepository>()
+            .AddScoped<IShopWorkTimesRepository, ShopWorkTimesRepository>();
 
             IServiceProvider services = serviceCollection.BuildServiceProvider();
 
@@ -51,17 +55,15 @@ namespace StatusShopBot
 
             botClient = new TelegramBotClient(token);
 
-            Program program = new Program();
-
-            Timer timer = new Timer(300000);
+            /*Timer timer = new Timer(300000);
             timer.Elapsed += async (sender, e) => await program.getStatus(monitoringRepository, shopsRepository, shopWorkTimesRepository);
-            timer.Start();
+            timer.Start();*/
 
             botClient.StartReceiving();
 
-            await program.getStatus(monitoringRepository, shopsRepository, shopWorkTimesRepository);
+            await getStatus(monitoringRepository, shopsRepository, shopWorkTimesRepository);
 
-            System.Threading.Thread.Sleep(-1);
+           // System.Threading.Thread.Sleep(-1);
         }
 
         public async Task getStatus(IMonitoringRepository monitoringRepository, IShopsRepository shopsRepository, IShopWorkTimesRepository shopWorkTimesRepository)
@@ -329,8 +331,13 @@ namespace StatusShopBot
                 await System.IO.File.AppendAllTextAsync(pathLogFail, resultFail);
             }
 
-            catch
+            catch (Exception e)
             {
+                await botClient.SendTextMessageAsync(
+                    chatId: creatorId,
+                    text: e.Message
+                    );
+
                 return;
             }
         }

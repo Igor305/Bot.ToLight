@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ZRvJCRScyTQjZaDiMFOvoeeYLBnpQODnFtQ05MoIQVCQNMGTKQ4QfBc6Z8HuaSSWoT0+7K6Rig0zyFjzCZXXPw==",
+  "dgSpecHash": "Q8PFJ7N50WaTpIU/FZNAf41eJQn6sauZStEV9MEbGO042M2dpbU9rbHYPpUocSQ+QEH1NQQsRr829kOnc443dA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\i.talavyria\\Desktop\\project\\BotToLight\\PresentationLayer\\PresentationLayer.csproj",
+  "projectFilePath": "C:\\Users\\i.talavyria\\Desktop\\project\\Bot.ToLight\\PresentationLayer\\PresentationLayer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\i.talavyria\\.nuget\\packages\\httptosocks5proxy\\1.4.0\\httptosocks5proxy.1.4.0.nupkg.sha512",
     "C:\\Users\\i.talavyria\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",

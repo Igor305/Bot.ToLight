@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5IZikidbGkAhb5BaIg3O8vsrOO8rG7WkT9ZMiDLeVMdBTs4yTWUQsn7i+wBQXtc6i5No4Z72Kkd0TNxNLj074A==",
+  "dgSpecHash": "zHMSMkR3q9IJmaExohesi0gPekfG3PWdO3LnKlt2XDrh8hPPd/Wehuej/WDRejNaDjGL3H6vHkjLTm6nVQc73g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\i.talavyria\\Desktop\\project\\BotToLight\\StatusShopBot\\StatusShopBot.csproj",
+  "projectFilePath": "C:\\Users\\i.talavyria\\Desktop\\project\\Bot.ToLight\\StatusShopBot\\StatusShopBot.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\i.talavyria\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\i.talavyria\\.nuget\\packages\\microsoft.data.sqlclient\\2.0.1\\microsoft.data.sqlclient.2.0.1.nupkg.sha512",
