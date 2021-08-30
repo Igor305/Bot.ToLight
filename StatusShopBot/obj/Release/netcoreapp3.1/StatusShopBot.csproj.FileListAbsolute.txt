@@ -140,7 +140,6 @@ C:\Users\i.talavyria\Desktop\project\BotToLight\StatusShopBot\obj\Release\netcor
 C:\Users\i.talavyria\Desktop\project\BotToLight\StatusShopBot\obj\Release\netcoreapp3.1\StatusShopBot.dll
 C:\Users\i.talavyria\Desktop\project\BotToLight\StatusShopBot\obj\Release\netcoreapp3.1\StatusShopBot.pdb
 C:\Users\i.talavyria\Desktop\project\BotToLight\StatusShopBot\obj\Release\netcoreapp3.1\StatusShopBot.genruntimeconfig.cache
-C:\Users\i.talavyria\Desktop\project\Bot.ToLight\StatusShopBot\obj\Release\netcoreapp3.1\StatusShopBot.csprojAssemblyReference.cache
 C:\Users\i.talavyria\Desktop\project\Bot.ToLight\StatusShopBot\obj\Release\netcoreapp3.1\StatusShopBot.AssemblyInfoInputs.cache
 C:\Users\i.talavyria\Desktop\project\Bot.ToLight\StatusShopBot\obj\Release\netcoreapp3.1\StatusShopBot.AssemblyInfo.cs
 C:\Users\i.talavyria\Desktop\project\Bot.ToLight\StatusShopBot\obj\Release\netcoreapp3.1\StatusShopBot.csproj.CoreCompileInputs.cache
@@ -211,3 +210,4 @@ C:\Users\i.talavyria\Desktop\project\Bot.ToLight\StatusShopBot\bin\Release\netco
 C:\Users\i.talavyria\Desktop\project\Bot.ToLight\StatusShopBot\bin\Release\netcoreapp3.1\DataAccessLayer.pdb
 C:\Users\i.talavyria\Desktop\project\Bot.ToLight\StatusShopBot\obj\Release\netcoreapp3.1\StatusShopBot.csproj.CopyComplete
 C:\Users\i.talavyria\Desktop\project\Bot.ToLight\StatusShopBot\obj\Release\netcoreapp3.1\StatusShopBot.genruntimeconfig.cache
+C:\Users\i.talavyria\Desktop\project\Bot.ToLight\StatusShopBot\obj\Release\netcoreapp3.1\StatusShopBot.csproj.AssemblyReference.cache

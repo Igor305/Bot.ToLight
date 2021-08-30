@@ -1,4 +1,3 @@
-C:\Users\i.talavyria\Desktop\project\Bot.ToLight\WorkerService\obj\Release\net5.0\WorkerService.csprojAssemblyReference.cache
 C:\Users\i.talavyria\Desktop\project\Bot.ToLight\WorkerService\obj\Release\net5.0\WorkerService.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\i.talavyria\Desktop\project\Bot.ToLight\WorkerService\obj\Release\net5.0\WorkerService.AssemblyInfoInputs.cache
 C:\Users\i.talavyria\Desktop\project\Bot.ToLight\WorkerService\obj\Release\net5.0\WorkerService.AssemblyInfo.cs
@@ -101,3 +100,4 @@ C:\Users\i.talavyria\Desktop\project\Bot.ToLight\WorkerService\obj\Release\net5.
 C:\Users\i.talavyria\Desktop\project\Bot.ToLight\WorkerService\obj\Release\net5.0\ref\WorkerService.dll
 C:\Users\i.talavyria\Desktop\project\Bot.ToLight\WorkerService\obj\Release\net5.0\WorkerService.pdb
 C:\Users\i.talavyria\Desktop\project\Bot.ToLight\WorkerService\obj\Release\net5.0\WorkerService.genruntimeconfig.cache
+C:\Users\i.talavyria\Desktop\project\Bot.ToLight\WorkerService\obj\Release\net5.0\WorkerService.csproj.AssemblyReference.cache

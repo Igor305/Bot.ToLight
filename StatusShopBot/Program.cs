@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
 
@@ -23,8 +24,8 @@ namespace StatusShopBot
         private readonly static string creatorId = "309516361";
         private readonly static string testChatId = "-1001395707277";
         private readonly static string chatId = "-1001158034358";
-        private readonly static string pathLog = "Log.txt";
-        private readonly static string pathLogFail = "LogFail.txt";
+        private readonly static string pathLog = "BotToLigthLog.txt";
+        private readonly static string pathLogFail = "BotToLigthLogFail.txt";
 
         private static TelegramBotClient botClient;
 
@@ -84,6 +85,8 @@ namespace StatusShopBot
                 List<ShopWorkTime> shopWorkTimes = await shopWorkTimesRepository.getTimeToDay();
                 List<Monitoring> monitorings = await monitoringRepository.getAllLogs(20);
 
+                await readFromFile();          
+
                 if (monitorings.Count != 0)
                 {
 
@@ -135,6 +138,8 @@ namespace StatusShopBot
                     }
 
                     // ------------------------------------------------------------------------ определение времени работы магазина ---------------------------------------------
+
+
                     if (statusShopModels.Count != 0)
                     {
                         foreach (StatusShopModel statusShop in statusShopModels)
@@ -195,10 +200,20 @@ namespace StatusShopBot
                                                                             text: notification
                                                                             );
 
-                                                                        await botClient.SendTextMessageAsync(
-                                                                            chatId: chatId,
-                                                                            text: notification
-                                                                            );
+                                                                        try
+                                                                        {
+                                                                            await botClient.SendTextMessageAsync(
+                                                                                chatId: chatId,
+                                                                                text: notification
+                                                                                );
+                                                                        }
+                                                                        catch (Exception e)
+                                                                        {
+                                                                            await botClient.SendTextMessageAsync(
+                                                                                chatId: creatorId,
+                                                                                text: e.Message
+                                                                                );
+                                                                        }
 
                                                                         errorShopsModel = fail;
                                                                     }
@@ -217,11 +232,20 @@ namespace StatusShopBot
                                                                         chatId: testChatId,
                                                                         text: notification
                                                                         );
-
-                                                                    await botClient.SendTextMessageAsync(
-                                                                        chatId: chatId,
-                                                                        text: notification
-                                                                        );
+                                                                    try
+                                                                    {
+                                                                        await botClient.SendTextMessageAsync(
+                                                                            chatId: chatId,
+                                                                            text: notification
+                                                                            );
+                                                                    }
+                                                                    catch (Exception e)
+                                                                    {
+                                                                        await botClient.SendTextMessageAsync(
+                                                                            chatId: creatorId,
+                                                                            text: e.Message
+                                                                            );
+                                                                    }
 
                                                                 }
                                                                 isFound = false;
@@ -236,11 +260,20 @@ namespace StatusShopBot
                                                                     chatId: testChatId,
                                                                     text: notification
                                                                     );
-
-                                                                await botClient.SendTextMessageAsync(
-                                                                    chatId: chatId,
-                                                                    text: notification
-                                                                    );
+                                                                try
+                                                                {
+                                                                    await botClient.SendTextMessageAsync(
+                                                                        chatId: chatId,
+                                                                        text: notification
+                                                                        );
+                                                                }
+                                                                catch (Exception e)
+                                                                {
+                                                                    await botClient.SendTextMessageAsync(
+                                                                        chatId: creatorId,
+                                                                        text: e.Message
+                                                                        );
+                                                                }
 
                                                                 failStatusShopModels.Add(new StatusShopModel { ShopId = newl.ShopId, LogTime = newl.LogTime });
                                                             }
@@ -302,6 +335,7 @@ namespace StatusShopBot
                             }
                         }
                     }
+
                     statusShopModels = newlist;
 
                     if (System.IO.File.Exists(pathLog))
@@ -324,7 +358,7 @@ namespace StatusShopBot
 
                 foreach (StatusShopModel statusShopModel in failStatusShopModels)
                 {
-                    resultFail += $"ShopId:{statusShopModel.ShopId}\nStatus:{statusShopModel.Status}\nLogTime{statusShopModel.LogTime}\n";
+                    resultFail += $"ShopId:{statusShopModel.ShopId}\nLogTime:{statusShopModel.LogTime}\n";
                 }
 
                 await System.IO.File.AppendAllTextAsync(pathLog, result);
@@ -339,6 +373,55 @@ namespace StatusShopBot
                     );
 
                 return;
+            }
+        }
+
+        private async Task readFromFile()
+        {
+            DateTime time = DateTime.Now;
+            string message = $"\U0000274C Список магазинів, у яких вимкнене світло:\n";
+            string id =  "";
+            string logTime = "";
+
+            if (time.Hour == 7 && time.Minute < 5 && System.IO.File.Exists(pathLogFail))
+            {
+                var text = System.IO.File.ReadAllLines(pathLogFail, Encoding.UTF8);
+
+                foreach (string str in text)
+                {
+                    if (str.Contains("ShopId:"))
+                    {
+                        id = str.Substring(7);
+                    }
+
+                    if (str.Contains("LogTime:"))
+                    {
+                        logTime = str.Substring(8);
+
+                        message += $"{id} - {logTime}\n";
+                    }
+
+                }
+
+                await botClient.SendTextMessageAsync(
+                    chatId: testChatId,
+                    text: message
+                    );
+
+                try
+                {
+                    await botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: message
+                        );
+                }
+                catch (Exception e)
+                {
+                    await botClient.SendTextMessageAsync(
+                        chatId: creatorId,
+                        text: e.Message
+                        );
+                }
             }
         }
     }
